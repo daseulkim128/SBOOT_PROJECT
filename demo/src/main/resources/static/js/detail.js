@@ -27,30 +27,28 @@ function searchUser(){
 	$.post('/searchUser', {"PERSON_ID" : p_id}, function(data){
 		
 		var detail	= data.detail;
-		var files	= data.files.list;	
+		var files	= data.files.list;
+		var fileArr = '';
 		
 		for(var i = 0; i<files.length; i++){
 			
 			var file			= files[i];
 			var FILE_ID			= file['FILE_ID'];
 			var ORN_FILE_NM		= file['OGN_FILE_NM'];
-			var FILE_BULK_VAL	= common.getfileSizeView(file['FILE_BULK_VAL']);
-			var url 			= subUrl + "downloadBlbrFile/" + FILE_ID;
+			var url 			= "fileDownload/" + FILE_ID;
 
 			fileArr	+='<div class="col-4">'
 					+ '	<div class="card card-default mb-1">'
 					+ '		<div class="card-body row">'
 					+ '			<div class="col-9">'
-					+ '				<a href="' + url + '">' + ORN_FILE_NM + '</a>'
-					+ '			</div>'
-					+ '			<div class="col-3 text-right">'
-					+ '				<span class="file-volume">' + FILE_BULK_VAL + '</span>'
+					+ '				<a href="'+url+'">' + ORN_FILE_NM + '</a>'
 					+ '			</div>'
 					+ '		</div>'
 					+ '	</div>'
 					+ '</div>'
 		}
 		
+		$('#file-append').show();
 		$('#file-append').append(fileArr);
 		$('#LAST_NAME').val(detail['LAST_NAME']);
 		$('#FIRST_NAME').val(detail['FIRST_NAME']);

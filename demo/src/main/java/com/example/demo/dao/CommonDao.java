@@ -27,8 +27,13 @@ public class CommonDao {
 		
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
 		
-		retMap.put("list", sqlSession.selectList("commonSql.getFile", reqMap));
+		retMap.put("list", sqlSession.selectList("commonSql.selectFiles", reqMap));
 		
 		return retMap;
+	}
+
+	public HashMap<String, Object> selectFileForDownload(String fileId) {
+		
+		return sqlSession.selectOne("commonSql.selectFileForDownload", fileId);
 	}
 }

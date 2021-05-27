@@ -23,7 +23,7 @@
 		)
 	</insert>
 	
-	<select id="getFile" resultType="java.util.HashMap">
+	<select id="selectFiles" resultType="java.util.HashMap">
 		SELECT AA.FILE_ID
 			, AA.PERSON_ID
 			, AA.OGN_FILE_NM
@@ -43,4 +43,26 @@
 			) AA
 		WHERE AA.PERSON_ID = #{PERSON_ID}
 	</select>
+	
+	<select id="selectFileForDownload" resultType="java.util.HashMap">
+		SELECT AA.FILE_ID
+			, AA.PERSON_ID
+			, AA.OGN_FILE_NM
+			, AA.FILE_BULK_VAL
+			, AA.FILE
+			, AA.MIME_TP
+			, AA.REG_DT
+		FROM (
+			SELECT FILE_ID
+				, PERSON_ID
+				, OGN_FILE_NM
+				, FILE_BULK_VAL
+				, FILE
+				, MIME_TP
+				, REG_DT
+			FROM FILE_ATCH 
+			) AA
+		WHERE AA.FILE_ID = #{FILE_ID}
+	</select>
+	
 </mapper>

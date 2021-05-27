@@ -39,8 +39,6 @@ public class TestController {
 	@PostMapping("/searchUserList")
 	public @ResponseBody HashMap<String,Object> searchUserList() {
 		
-		System.out.println("버전"+org.springframework.core.SpringVersion.getVersion());
-		 
 		HashMap<String,Object> retMap =  testService.searchUserList();
 		
 	    return retMap;

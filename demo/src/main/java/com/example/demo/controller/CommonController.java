@@ -1,11 +1,15 @@
 package com.example.demo.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -14,21 +18,25 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.service.CommonService;
 import com.example.demo.service.TestService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RestController
 public class CommonController {
 	
-	@Autowired
-	private TestService testService;
+	private final TestService testService;
+	private final CommonService commonService;
 
 	@GetMapping("/excelDownloadUserList")
 	public void excelDownload() throws Exception {
@@ -131,6 +139,61 @@ public class CommonController {
 		}
 		
 		return map;
+	}
+	
+//	@GetMapping("fileDownload/{id}")
+//	public void fileDownload(@PathVariable("id") String fileId, HttpServletResponse response) {
+//		
+//		HashMap<String, Object> retMap = commonService.selectFileForDownload(fileId);
+//		
+//		String FILE_NM = retMap.get("OGN_FILE_NM").toString();
+//
+//		String MIME_TYPE = retMap.get("MIME_TP").toString();
+//		
+//		response.setHeader("Content-Disposition", "attachment; filename=\"" + FILE_NM + "\";");
+//        response.setHeader("Content-Transfer-Encoding", "binary"); 
+//        response.setHeader("Content-Type", MIME_TYPE);
+//        response.setHeader("Pragma", "no-cache;");
+//        response.setHeader("Expires", "-1;");
+//        
+//        try (FileInputStream fis = new FileInputStream(FILE_NM); OutputStream out = response.getOutputStream();) {
+//            int readCount = 0;
+//            byte[] buffer = new byte[1024];
+//            // 파일 읽을 만큼 크기의 buffer를 생성한 후 
+//            while ((readCount = fis.read(buffer)) != -1) {
+//                out.write(buffer, 0, readCount);
+//                // outputStream에 씌워준다
+//            }
+//        } catch (Exception ex) {
+//            throw new RuntimeException("file Load Error");
+//        }
+//	}
+	
+	@GetMapping("fileDownload/{id}")
+	public void fileDownload(@PathVariable("id") String fileId, HttpServletResponse response) {
+		
+		HashMap<String, Object> retMap = commonService.selectFileForDownload(fileId);
+		
+		String FILE_NM = retMap.get("OGN_FILE_NM").toString();
+		String MIME_TYPE = retMap.get("MIME_TP").toString();
+		
+		
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + FILE_NM + "\";");
+        response.setHeader("Content-Type", MIME_TYPE);
+        
+        try (FileInputStream fis = new FileInputStream(FILE_NM); 
+        		OutputStream out = response.getOutputStream();) {
+        	
+            int readCount = 0;
+            byte[] buffer = new byte[1024];
+            // 파일 읽을 만큼 크기의 buffer를 생성한 후 
+            while ((readCount = fis.read(buffer)) != -1) {
+                out.write(buffer, 0, readCount);
+                // outputStream에 씌워준다
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException("file Load Error");
+        }
 	}
 	
 }

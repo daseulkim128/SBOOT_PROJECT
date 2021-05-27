@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="testSql">
+		<select id="selectUserList" resultType="java.util.HashMap">
+			SELECT B.NO																							
+					 , B.PERSON_ID																				
+					 , B.LAST_NAME																				
+					 , B.FIRST_NAME																				
+					 , B.ADDRESS																				
+					 , B.CITY						
+					 , B.HEIGHT
+					 , B.AGE
+					 , DATE_FORMAT(B.REG_DT, '%Y-%m-%d') AS REG_DT											
+				  FROM (
+					SELECT ROW_NUMBER() OVER (ORDER BY REG_DT ASC) AS NO																
+						 , A.PERSON_ID																				
+						 , A.LAST_NAME																	
+						 , A.FIRST_NAME		       																
+						 , A.ADDRESS																				
+						 , A.CITY				
+						 , A.HEIGHT
+						 , A.AGE
+						 , A.REG_DT																			
+					  FROM PERSONS A 				
+				  ) AS B
+				ORDER BY B.NO ASC
+		</select>
+		<select id="selectUser" resultType="java.util.HashMap">
+			SELECT B.PERSON_ID																				
+					 , B.LAST_NAME																				
+					 , B.FIRST_NAME																				
+					 , B.ADDRESS																				
+					 , B.CITY			
+					 , B.HEIGHT
+					 , B.AGE
+					 , B.REG_DT																			
+				  FROM (
+					SELECT A.PERSON_ID																				
+						 , A.LAST_NAME																	
+						 , A.FIRST_NAME		       																
+						 , A.ADDRESS																				
+						 , A.CITY			
+						 , A.HEIGHT
+						 , A.AGE
+						 , A.REG_DT																				
+					  FROM PERSONS A 	
+					  WHERE 1 = 1
+					  AND A.PERSON_ID = #{PERSON_ID}			
+				  ) AS B
+		</select>
+		
+		<insert id="insertUser" parameterType="hashmap">
+			<selectKey resultType="string" keyProperty="PERSON_ID" order="BEFORE">
+					SELECT REPLACE(UUID(),'-','')
+		    </selectKey>
+			INSERT INTO PERSONS
+					(
+					PERSON_ID
+					, LAST_NAME
+					, FIRST_NAME
+					, ADDRESS
+					, HEIGHT
+					, AGE
+					, CITY	
+					, REG_DT
+					)
+					VALUES
+					(
+					#{PERSON_ID}
+					, #{LAST_NAME}
+					, #{FIRST_NAME}
+					, #{ADDRESS}
+					, #{HEIGHT}
+					, #{AGE}
+					, #{CITY}
+					, NOW()
+					)
+		</insert>
+		
+		<update id="updateUser" parameterType="hashmap">
+			UPDATE PERSONS SET
+				LAST_NAME 	= #{LAST_NAME}
+				, LAST_NAME = #{LAST_NAME}
+				, FIRST_NAME= #{FIRST_NAME}
+				, ADDRESS 	= #{ADDRESS}
+				, AGE 		= #{AGE}
+				, HEIGHT 	= #{HEIGHT}
+				, CITY 		= #{CITY}
+				, REG_DT	= NOW()
+				WHERE PERSON_ID = #{PERSON_ID}	  
+		</update>
+		
+		<delete id="deleteUser">
+			DELETE FROM PERSONS
+				WHERE PERSON_ID = #{PERSON_ID}
+		</delete>
+		
+</mapper>
+
+

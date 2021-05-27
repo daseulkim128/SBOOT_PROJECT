@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="commonSql">
+	<insert id="insertAtth" parameterType="hashmap">
+		INSERT INTO FILE_ATCH (
+			   PERSON_ID
+			 , FILE_ID
+			 , OGN_FILE_NM
+			 , FILE_BULK_VAL
+			 , FILE
+			 , MIME_TP
+			 , REG_DT
+		) VALUES (
+			   #{PERSON_ID}
+			 , REPLACE(UUID(), '-', '')
+			 , #{OGN_FILE_NM}
+			 , #{FILE_BULK_VAL}
+			 , #{FILE}
+			 , #{MIME_TP}
+			 , NOW()
+		)
+	</insert>
+	
+	<select id="getFile" resultType="java.util.HashMap">
+		SELECT AA.FILE_ID
+			, AA.PERSON_ID
+			, AA.OGN_FILE_NM
+			, AA.FILE_BULK_VAL
+			, AA.FILE
+			, AA.MIME_TP
+			, AA.REG_DT
+		FROM (
+			SELECT FILE_ID
+				, PERSON_ID
+				, OGN_FILE_NM
+				, FILE_BULK_VAL
+				, FILE
+				, MIME_TP
+				, REG_DT
+			FROM FILE_ATCH 
+			) AA
+		WHERE AA.PERSON_ID = #{PERSON_ID}
+	</select>
+</mapper>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/detail.js"></script>
+<link href="css/bootstrap.css" rel="stylesheet"> 
+</head>
+<body>	
+	<div class="list-board-head">
+        <div class="col-sm-12 pt-3">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title"><i class="fas fa-square"></i> 세부사항</h4>
+                    <p class="card-catagory"></p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>LAST_NAME</td>
+                                <td>
+                                    <input type="text" id="LAST_NAME" class="form-control">                                    
+                                </td>
+                                <td>FIRST_NAME</td>
+                                <td>
+                                    <input type="text" id="FIRST_NAME" class="form-control">                                    
+                                </td>
+                            </tr>  
+                            <tr>
+                                <td>ADDRESS</td>
+                                <td>
+                                    <input type="text" id="ADDRESS" class="form-control" value="">
+                                </td>
+                                <td>CITY</td>
+                                <td>
+                                    <select id="CITY" class="form-control">
+							        <option selected>Choose...</option>
+							        <option value="london">london</option>
+									<option value="mexico">mexico</option>
+									<option value="la">la</option>
+									<option value="new york">new york</option>
+									<option value="seoul">seoul</option>
+							      </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>AGE</td>
+                                <td>
+                                    <input type="text" id="AGE" class="form-control">                                    
+                                </td>
+                                <td>HEIGHT</td>
+                                <td>
+                                    <input type="text" id="HEIGHT" class="form-control">                                    
+                                </td>
+                            </tr>  
+                        </table>
+                    </div>
+                    <div style="display:none" id="file-append">
+                	</div>
+                </div>
+            </div>
+        </div>
+	    <div class="text-center mt-3">
+	        <button id="updateBtn" class="btn btn-success">수정</button>
+	        <button id="deleteBtn" class="btn btn-secondary">삭제</button>
+	        <button id="cancelBtn" class="btn btn-dark" onclick="location.href='main'">취소</button>
+	    </div>
+	</div>
+</body>
+
+
+
+
+</html>

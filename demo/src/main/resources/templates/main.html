@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Insert title here</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<link href="css/bootstrap.css" rel="stylesheet"> 
+<body>
+	<table class="table" id="UserTable">
+		<colgroup>
+			<col style="width:100px;">
+			<col style="width:100px;">
+			<col style="width:100px;">
+			<col style="width:150px;">
+			<col style="width:100px;">
+			<col style="width:100px;">
+			<col style="width:100px;">
+			<col style="width:100px;">
+			<col style="width:100px;">
+		</colgroup>
+		<thead>
+			<tr>
+				<th scope="col" colName='NO'>NO</th>
+				<th scope="col" colName='LAST_NAME'>LAST NAME</th>
+				<th scope="col" colName='FIRST_NAME'>FIRST NAME</th>
+				<th scope="col" colName='ADDRESS'>ADDRESS</th>
+				<th scope="col" colName='CITY'>CITY</th>
+				<th scope="col" colName='CITY'>HEIGHT</th>
+				<th scope="col" colName='CITY'>AGE</th>
+				<th scope="col" colName='CITY'>REG_DT</th>
+				<th scope="col" colName='ACTION'>ACTION</th>
+			</tr>
+		</thead>
+		<tbody id="UserTableTbody"></tbody>
+	</table>
+ 	<div class="text-center mt-3">
+        <button id="registBtn" class="btn btn-success" onclick="location.href ='regist'">등록</button>
+        <button id="excelDownloadBtn" class="btn btn-secondary">엑셀다운로드</button>
+        <button id="excelUploadBtn" class="btn btn-dark">엑셀업로드</button>
+		<input id="testFile" class="form-control filestyle" type="file" accept=".xlsx" value="" style="display:none">
+    </div>
+</body>
+</html>
+

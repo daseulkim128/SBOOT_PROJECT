@@ -6,11 +6,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Repository
 public class CommonDao {
 
-	@Autowired
-	private SqlSessionTemplate sqlSession;
+	private final SqlSessionTemplate sqlSession;
 
 	public HashMap<String, Object> insertAtth(HashMap<String, Object> reqMap) {
 		

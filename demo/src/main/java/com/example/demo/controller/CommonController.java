@@ -18,6 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,71 +39,129 @@ public class CommonController {
 	private final TestService testService;
 	private final CommonService commonService;
 
-	@GetMapping("/excelDownloadUserList")
-	public void excelDownload() throws Exception {
+//	@GetMapping("excelDownloadUserList")
+//	public void excelDownload() throws Exception {
+//		
+//		HashMap<String,Object> reqMap =  testService.searchUserList();
+//		FileOutputStream fos = null;
+//		    
+//	    try {
+//	    		XSSFWorkbook  workbook = new XSSFWorkbook ();
+//	 	        
+//	    		XSSFSheet sheet = workbook.createSheet("UserList");
+//	 	        
+//	    		XSSFRow row = null;
+//	 	        
+//	    		XSSFCell cell = null;
+//	    		
+//	    		int rowNo 	= 0;
+//	        
+//	 	        List<HashMap<String, Object>> list 	= (List<HashMap<String, Object>>)reqMap.get("list");
+//	 	        
+//	 	        row = sheet.createRow(rowNo);
+//		        String[] headerKey = {"NO", "LAST_NAME", "FIRST_NAME", "ADDRESS", "HEIGHT", "AGE", "CITY"};
+//		        
+//		        for(int i=0; i < headerKey.length; i++) {
+//		            cell = row.createCell(i);
+//		            cell.setCellValue(headerKey[i]);
+//		        }
+//		        
+//		        rowNo 	= 1;
+//		        
+//		        for(int j = 0; j < list.size(); j ++) {
+//		        	HashMap<String, Object> map = list.get(j);
+//		        	
+//		        	row = sheet.createRow(rowNo++);
+//		        	
+//		        	for(int i=0; i<headerKey.length; i++) {
+//		        		
+//		        		String key = headerKey[i];
+//		        		String value = map.get(key).toString();
+//		        		
+//		        		cell = row.createCell(i);
+//		        		cell.setCellValue(value);
+//		        	}
+//		        }		        
+//		        
+//		        String pattern = "yyyy-MM-dd";
+//		        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+//		        String date = simpleDateFormat.format(new Date());
+//		        
+//	        	String localFile = "/Users/USER/excelTest/" + "excelDownTest_"+ date + ".xlsx";
+//	        	
+//	        	File file = new File(localFile);
+//	        	fos = new FileOutputStream(file);
+//
+//	        	workbook.write(fos);
+//	        	fos.flush();
+//	    
+//	    	} catch (Exception e) {
+//	    		e.printStackTrace();
+//	    	} finally {
+//	    		if(fos != null) fos.close();
+//	    }   
+//	}
+	
+	@GetMapping("excelDownloadUserList")
+	public void excelDownload(HttpServletResponse response) throws Exception {
 		
 		HashMap<String,Object> reqMap =  testService.searchUserList();
-		FileOutputStream fos = null;
-		    
-	    try {
-	    		XSSFWorkbook  workbook = new XSSFWorkbook ();
-	 	        
-	    		XSSFSheet sheet = workbook.createSheet("UserList");
-	 	        
-	    		XSSFRow row = null;
-	 	        
-	    		XSSFCell cell = null;
-	    		
-	    		int rowNo 	= 0;
+		OutputStream fos = null;
+		
+		XSSFWorkbook  workbook = new XSSFWorkbook ();
 	        
-	 	        List<HashMap<String, Object>> list 	= (List<HashMap<String, Object>>)reqMap.get("list");
-	 	        
-	 	        row = sheet.createRow(rowNo);
-		        String[] headerKey = {"NO", "LAST_NAME", "FIRST_NAME", "ADDRESS", "HEIGHT", "AGE", "CITY"};
-		        
-		        for(int i=0; i < headerKey.length; i++) {
-		            cell = row.createCell(i);
-		            cell.setCellValue(headerKey[i]);
-		        }
-		        
-		        rowNo 	= 1;
-		        
-		        for(int j = 0; j < list.size(); j ++) {
-		        	HashMap<String, Object> map = list.get(j);
-		        	
-		        	row = sheet.createRow(rowNo++);
-		        	
-		        	for(int i=0; i<headerKey.length; i++) {
-		        		
-		        		String key = headerKey[i];
-		        		String value = map.get(key).toString();
-		        		
-		        		cell = row.createCell(i);
-		        		cell.setCellValue(value);
-		        	}
-		        }		        
-		        
-		        String pattern = "yyyy-MM-dd";
-		        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-		        String date = simpleDateFormat.format(new Date());
-		        
-	        	String localFile = "/Users/USER/excelTest/" + "excelDownTest_"+ date + ".xlsx";
-	        	
-	        	File file = new File(localFile);
-	        	fos = new FileOutputStream(file);
+		XSSFSheet sheet = workbook.createSheet("UserList");
+	        
+		XSSFRow row = null;
+	        
+		XSSFCell cell = null;
+		
+		int rowNo 	= 0;
+    
+	        List<HashMap<String, Object>> list 	= (List<HashMap<String, Object>>)reqMap.get("list");
+	        
+	        row = sheet.createRow(rowNo);
+        String[] headerKey = {"NO", "LAST_NAME", "FIRST_NAME", "ADDRESS", "HEIGHT", "AGE", "CITY"};
+        
+        for(int i=0; i < headerKey.length; i++) {
+            cell = row.createCell(i);
+            cell.setCellValue(headerKey[i]);
+        }
+        
+        rowNo 	= 1;
+        
+        for(int j = 0; j < list.size(); j ++) {
+        	HashMap<String, Object> map = list.get(j);
+        	
+        	row = sheet.createRow(rowNo++);
+        	
+        	for(int i=0; i<headerKey.length; i++) {
+        		
+        		String key = headerKey[i];
+        		String value = map.get(key).toString();
+        		
+        		cell = row.createCell(i);
+        		cell.setCellValue(value);
+        	}
+        }		        
+        
+//        response.setContentType("ms-vnd/excel");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=test.xlsx");
 
-	        	workbook.write(fos);
-	        	fos.flush();
-	    
-	    	} catch (Exception e) {
-	    		e.printStackTrace();
-	    	} finally {
-	    		if(fos != null) fos.close();
-	    }   
+    	fos = response.getOutputStream();
+        
+        workbook.write(fos);
+        fos.flush();
+        fos.close();
 	}
 
-
-	@PostMapping(value="/excelUpload")
+	/**
+	 * 엑셀파일 업로드시 DB에 데이터를 등록한다
+	 * @param file
+	 * @return
+	 */
+	@PostMapping("excelUpload")
 	public @ResponseBody HashMap<String, Object> excelUpload(@RequestParam("file") MultipartFile file) throws Exception{
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -140,60 +199,44 @@ public class CommonController {
 		
 		return map;
 	}
-	
-//	@GetMapping("fileDownload/{id}")
-//	public void fileDownload(@PathVariable("id") String fileId, HttpServletResponse response) {
-//		
-//		HashMap<String, Object> retMap = commonService.selectFileForDownload(fileId);
-//		
-//		String FILE_NM = retMap.get("OGN_FILE_NM").toString();
-//
-//		String MIME_TYPE = retMap.get("MIME_TP").toString();
-//		
-//		response.setHeader("Content-Disposition", "attachment; filename=\"" + FILE_NM + "\";");
-//        response.setHeader("Content-Transfer-Encoding", "binary"); 
-//        response.setHeader("Content-Type", MIME_TYPE);
-//        response.setHeader("Pragma", "no-cache;");
-//        response.setHeader("Expires", "-1;");
-//        
-//        try (FileInputStream fis = new FileInputStream(FILE_NM); OutputStream out = response.getOutputStream();) {
-//            int readCount = 0;
-//            byte[] buffer = new byte[1024];
-//            // 파일 읽을 만큼 크기의 buffer를 생성한 후 
-//            while ((readCount = fis.read(buffer)) != -1) {
-//                out.write(buffer, 0, readCount);
-//                // outputStream에 씌워준다
-//            }
-//        } catch (Exception ex) {
-//            throw new RuntimeException("file Load Error");
-//        }
-//	}
-	
-	@GetMapping("fileDownload/{id}")
-	public void fileDownload(@PathVariable("id") String fileId, HttpServletResponse response) {
+
+	/**
+	 * 서버에 등록된 파일을 읽어 브라우저 다운로드를 한다
+	 * @param file_id, p_id
+	 * @return
+	 */
+	@GetMapping("fileDownload/{file_id}/{p_id}")
+	public void fileDownload(@PathVariable("file_id") String fileId, @PathVariable("p_id") String pId, HttpServletResponse response) throws Exception {
 		
 		HashMap<String, Object> retMap = commonService.selectFileForDownload(fileId);
 		
-		String FILE_NM = retMap.get("OGN_FILE_NM").toString();
-		String MIME_TYPE = retMap.get("MIME_TP").toString();
+		String FILE_NM 	= retMap.get("OGN_FILE_NM").toString();
+		String PATH		= "C:\\Users\\USER\\excelTest\\"+pId+"\\";		
 		
-		
+		//목적에 따라 컨텐츠 타입이 다름
+		response.setHeader("Content-Type", "application/octet-stream");  // 물리적 파일 다운로드 - application/octet-stream
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + FILE_NM + "\";");
-        response.setHeader("Content-Type", MIME_TYPE);
-        
-        try (FileInputStream fis = new FileInputStream(FILE_NM); 
-        		OutputStream out = response.getOutputStream();) {
-        	
-            int readCount = 0;
-            byte[] buffer = new byte[1024];
-            // 파일 읽을 만큼 크기의 buffer를 생성한 후 
-            while ((readCount = fis.read(buffer)) != -1) {
-                out.write(buffer, 0, readCount);
-                // outputStream에 씌워준다
-            }
-        } catch (Exception ex) {
-            throw new RuntimeException("file Load Error");
-        }
+		response.setHeader("Content-Transfer-Encoding", "binary");
+		
+		OutputStream out = response.getOutputStream();
+
+		FileInputStream fis = null;	
+		
+		try {
+			File file = new File(PATH + FILE_NM);
+			fis = new FileInputStream(file);
+
+			FileCopyUtils.copy(fis, out);
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+
+		}finally {
+			if(fis !=null) {
+				fis.close();
+			}
+			out.flush();
+			out.close();
+		}
 	}
-	
 }

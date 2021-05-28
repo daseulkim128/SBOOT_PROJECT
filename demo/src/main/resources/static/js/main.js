@@ -7,7 +7,7 @@ $(function() {
 		setEvent : function() {
 			
 			$('#excelDownloadBtn').on('click', function(){
-				$.get('/excelDownloadUserList');
+				$.get('excelDownloadUserList');
 			});
 			
 			$('#excelUploadBtn').on('click', function(){
@@ -22,7 +22,7 @@ $(function() {
 				formData.append("file", file);
 				
 				$.ajax({
-					url			: '/excelUpload',
+					url			: 'excelUpload',
 					data		: formData,
 					dataType	: 'JSON',
 					processData	: false,
@@ -51,7 +51,7 @@ $(function() {
 
 function searchUserList(){
 	
-	$.post('/searchUserList', function(data){
+	$.post('searchUserList', function(data){
 		
 		var list	= data.list;
 		var qs		= '';
@@ -99,7 +99,7 @@ function registUser(){
 		"CITY" 			: $('#CITY').val() 
 	}
 	
-	$.post('/registUser', param, function(data){
+	$.post('registUser', param, function(data){
 		
 		var result = data.result;
 		

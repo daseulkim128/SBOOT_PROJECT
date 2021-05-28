@@ -8,18 +8,12 @@
 			   PERSON_ID
 			 , FILE_ID
 			 , OGN_FILE_NM
-			 , FILE_BULK_VAL
 			 , FILE
-			 , MIME_TP
-			 , REG_DT
 		) VALUES (
 			   #{PERSON_ID}
 			 , REPLACE(UUID(), '-', '')
 			 , #{OGN_FILE_NM}
-			 , #{FILE_BULK_VAL}
 			 , #{FILE}
-			 , #{MIME_TP}
-			 , NOW()
 		)
 	</insert>
 	
@@ -27,18 +21,12 @@
 		SELECT AA.FILE_ID
 			, AA.PERSON_ID
 			, AA.OGN_FILE_NM
-			, AA.FILE_BULK_VAL
 			, AA.FILE
-			, AA.MIME_TP
-			, AA.REG_DT
 		FROM (
 			SELECT FILE_ID
 				, PERSON_ID
 				, OGN_FILE_NM
-				, FILE_BULK_VAL
 				, FILE
-				, MIME_TP
-				, REG_DT
 			FROM FILE_ATCH 
 			) AA
 		WHERE AA.PERSON_ID = #{PERSON_ID}
@@ -48,18 +36,12 @@
 		SELECT AA.FILE_ID
 			, AA.PERSON_ID
 			, AA.OGN_FILE_NM
-			, AA.FILE_BULK_VAL
 			, AA.FILE
-			, AA.MIME_TP
-			, AA.REG_DT
 		FROM (
 			SELECT FILE_ID
 				, PERSON_ID
 				, OGN_FILE_NM
-				, FILE_BULK_VAL
 				, FILE
-				, MIME_TP
-				, REG_DT
 			FROM FILE_ATCH 
 			) AA
 		WHERE AA.FILE_ID = #{FILE_ID}

@@ -89,7 +89,7 @@ function registUser(){
 	formData.append('CITY'		, CITY);
 	
 	$.ajax({
-		url			: '/registUser',
+		url			: 'registUser',
 		data		: formData,
 		dataType	: 'JSON',
 		processData	: false,

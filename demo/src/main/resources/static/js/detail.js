@@ -24,7 +24,7 @@ $(function() {
 
 function searchUser(){
 
-	$.post('/searchUser', {"PERSON_ID" : p_id}, function(data){
+	$.post('searchUser', {"PERSON_ID" : p_id}, function(data){
 		
 		var detail	= data.detail;
 		var files	= data.files.list;
@@ -35,7 +35,7 @@ function searchUser(){
 			var file			= files[i];
 			var FILE_ID			= file['FILE_ID'];
 			var ORN_FILE_NM		= file['OGN_FILE_NM'];
-			var url 			= "fileDownload/" + FILE_ID;
+			var url 			= "fileDownload/" + FILE_ID +"/"+ p_id;
 
 			fileArr	+='<div class="col-4">'
 					+ '	<div class="card card-default mb-1">'
@@ -73,7 +73,7 @@ function updateUser(){
 		"CITY" 			: $('#CITY').val() 
 	}
 	
-	$.post('/updateUser', param, function(data){
+	$.post('updateUser', param, function(data){
 		
 		var result = data.result;
 		
@@ -87,12 +87,12 @@ function updateUser(){
 
 function deleteUser(){
 	
-	$.post('/deleteUser', {"PERSON_ID" : p_id}, function(data){
+	$.post('deleteUser', {"PERSON_ID" : p_id}, function(data){
 		
 		var result = data.result;
 		
 		if(result > 0){
-			location.href ="http://localhost:8888/main";
+			location.href ="main";
 			alert('삭제 완료');
 		}else{
 			alert('삭제 실패!');

@@ -1,11 +1,9 @@
 package com.example.demo.service;
 
+import java.io.File;
 import java.util.HashMap;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.tika.Tika;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dao.CommonDao;
@@ -19,41 +17,46 @@ public class CommonService {
 	private final CommonDao commonDao;
 
 	/**
-	 * 파일을 등록한다
-	 * @param PERSON_ID
+	 * 서버에 파일을 등록한다
+	 * @param PERSON_ID, files
 	 * @return
 	 */
 	public void saveFile(MultipartFile[] files, String PERSON_ID) throws Exception {
 		
 		if(files.length>0) {
+			
+			String FOLDER_PATH  = "C:\\Users\\USER\\excelTest\\"+PERSON_ID+"\\";
+			File PATH 			= new File(FOLDER_PATH);
+			
+			if(!PATH.exists()) {
+				try {
+					PATH.mkdirs();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
 			for(MultipartFile file : files) {
 				
-				HashMap<String, Object> reqMap = new HashMap<String, Object>();
+				HashMap<String, Object> insertMap = new HashMap<String, Object>();	
+				String OGN_FILE_NM	= file.getOriginalFilename();
+
+				try {
+					
+					//DB등록
+					insertMap.put("PERSON_ID"	, PERSON_ID);
+					insertMap.put("OGN_FILE_NM"	, OGN_FILE_NM);
+					insertMap.put("FILE"	   	, file.getBytes());
+					commonDao.insertAtth(insertMap);
+					
+					//서버등록 (경로, 파일명)
+					file.transferTo(new File(PATH+"\\"+OGN_FILE_NM));
 				
-				String OGN_FILE_NM 		= FilenameUtils.getName(file.getOriginalFilename());	// 원본 파일명
-				String FILE_BULK_VAL	= file.getSize() + "";			// 파일 크기값
-				
-				reqMap.put("PERSON_ID"		, PERSON_ID);
-				reqMap.put("OGN_FILE_NM"	, OGN_FILE_NM);
-				reqMap.put("FILE_BULK_VAL"	, FILE_BULK_VAL);
-				reqMap.put("FILE"			, file.getBytes());
-				reqMap.put("MIME_TP"		, getMimeType(file));
-				
-				commonDao.insertAtth(reqMap);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 		}
-	}
-	
-	/**
-	 * MIME TYPE 리턴
-	 * @param PERSON_ID
-	 * @return
-	 */
-	public String getMimeType(Object o) throws Exception {
-		
-		String cn = o.getClass().getSimpleName().toLowerCase();
-		return new Tika().detect(((MultipartFile) o).getInputStream());
-		
 	}
 	
 	/**

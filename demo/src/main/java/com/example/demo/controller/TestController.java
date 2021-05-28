@@ -21,22 +21,22 @@ public class TestController {
 	private final TestService testService;
 	private final CommonService commonService;
 	
-	@GetMapping("/main")
+	@GetMapping("main")
 	public String main() throws Exception {
 		return "main";
 	}
 	
-	@GetMapping("/detail")
+	@GetMapping("detail")
 	public String detail() throws Exception {
 		return "detail";
 	}
 
-	@GetMapping("/regist")
+	@GetMapping("regist")
 	public String regist() throws Exception {
 		return "regist";
 	}
 
-	@PostMapping("/searchUserList")
+	@PostMapping("searchUserList")
 	public @ResponseBody HashMap<String,Object> searchUserList() {
 		
 		HashMap<String,Object> retMap =  testService.searchUserList();
@@ -44,7 +44,7 @@ public class TestController {
 	    return retMap;
 	}
 	
-	@PostMapping("/searchUser")
+	@PostMapping("searchUser")
 	public @ResponseBody HashMap<String, Object> searchUser(@RequestParam HashMap<String, Object> reqMap){
 		
 		HashMap<String,Object> retMap =  testService.searchUser(reqMap);
@@ -54,21 +54,21 @@ public class TestController {
 	    return retMap;
 	}
 	
-//	@PostMapping("/registUser")
-//	public @ResponseBody HashMap<String,Object> registUser(@RequestParam(value="files",required=false) MultipartFile[] files, @RequestParam HashMap<String, Object> reqMap) throws Exception {
-//		
-//		HashMap<String,Object> retMap =  testService.registUser(reqMap);
-//		
-//		String PERSON_ID = retMap.get("PERSON_ID").toString();
-//		
-//		if(files!=null) {
-//			commonService.saveFile(files, PERSON_ID);
-//		}
-//		
-//		return retMap;
-//	}
+	@PostMapping("registUser")
+	public @ResponseBody HashMap<String,Object> registUser(@RequestParam(value="files",required=false) MultipartFile[] files, @RequestParam HashMap<String, Object> reqMap) throws Exception {
+		
+		HashMap<String,Object> retMap =  testService.registUser(reqMap);
+		
+		String PERSON_ID = retMap.get("PERSON_ID").toString();
+		
+		if(files!=null) {
+			commonService.saveFile(files, PERSON_ID);
+		}
+		
+		return retMap;
+	}
 	
-	@PostMapping("/updateUser")
+	@PostMapping("updateUser")
 	public @ResponseBody HashMap<String,Object> updateUser(@RequestParam HashMap<String,Object> reqMap) {
 		
 		HashMap<String,Object> retMap =  testService.updateUser(reqMap);
@@ -76,17 +76,11 @@ public class TestController {
 		return retMap;
 	}
 	
-	@PostMapping("/deleteUser")
+	@PostMapping("deleteUser")
 	public @ResponseBody HashMap<String,Object> deleteUser(@RequestParam HashMap<String,Object> reqMap) {
 		
 		HashMap<String,Object> retMap =  testService.deleteUser(reqMap);
 		
 		return retMap;
 	}
-	
 }
-
-
-
-
-

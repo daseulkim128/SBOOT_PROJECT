@@ -2,10 +2,7 @@ package com.example.demo.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -105,8 +102,7 @@ public class CommonController {
 	@GetMapping("excelDownloadUserList")
 	public void excelDownload(HttpServletResponse response) throws Exception {
 		
-		HashMap<String,Object> reqMap =  testService.searchUserList();
-		OutputStream fos = null;
+		HashMap<String,Object> retMap =  testService.searchUserList();
 		
 		XSSFWorkbook  workbook = new XSSFWorkbook ();
 	        
@@ -118,10 +114,11 @@ public class CommonController {
 		
 		int rowNo 	= 0;
     
-	        List<HashMap<String, Object>> list 	= (List<HashMap<String, Object>>)reqMap.get("list");
+	    List<HashMap<String, Object>> list 	= (List<HashMap<String, Object>>)retMap.get("list");
 	        
-	        row = sheet.createRow(rowNo);
-        String[] headerKey = {"NO", "LAST_NAME", "FIRST_NAME", "ADDRESS", "HEIGHT", "AGE", "CITY"};
+	    row = sheet.createRow(rowNo);
+        
+	    String[] headerKey = {"NO", "LAST_NAME", "FIRST_NAME", "ADDRESS", "HEIGHT", "AGE", "CITY"};
         
         for(int i=0; i < headerKey.length; i++) {
             cell = row.createCell(i);
@@ -145,15 +142,16 @@ public class CommonController {
         	}
         }		        
         
-//        response.setContentType("ms-vnd/excel");
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=test.xlsx");
 
-    	fos = response.getOutputStream();
+        OutputStream os = response.getOutputStream();
         
-        workbook.write(fos);
-        fos.flush();
-        fos.close();
+        workbook.write(os);
+        os.flush();
+        os.close();
+        workbook.close();
+        
 	}
 
 	/**
@@ -202,7 +200,7 @@ public class CommonController {
 
 	/**
 	 * 서버에 등록된 파일을 읽어 브라우저 다운로드를 한다
-	 * @param file_id, p_id
+	 * @param file_id, p_id, response
 	 * @return
 	 */
 	@GetMapping("fileDownload/{file_id}/{p_id}")

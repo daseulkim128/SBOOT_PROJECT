@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberSql">
+
+	<select id="loginMember" resultType="java.util.HashMap" parameterType="hashmap">
+		SELECT A.RESULT
+			FROM (
+					SELECT COUNT(*) AS RESULT
+					FROM MEMBERS
+					WHERE MEM_ID = #{MEM_ID} AND MEM_PWD = #{MEM_PWD}
+				) A
+	</select>
+	
+	<select id="checkId" resultType="java.util.HashMap" parameterType="hashmap">
+		SELECT A.RESULT
+			FROM (
+					SELECT COUNT(*) AS RESULT
+					FROM MEMBERS
+					WHERE MEM_ID = #{MEM_ID}
+				) A
+	</select>
+	
+	<select id="selectMember" resultType="java.util.HashMap" parameterType="hashmap">
+		SELECT A.MEM_NO 
+			, A.MEM_ID
+			, A.MEM_TYPE
+			FROM (
+					SELECT MEM_NO 
+						, MEM_ID
+						, MEM_TYPE
+					FROM MEMBERS
+					WHERE MEM_ID = #{MEM_ID} 
+				) A
+	</select>
+	
+	<insert id="insertMember" parameterType="hashmap">
+		<selectKey resultType="string" keyProperty="MEM_NO" order="BEFORE">
+				SELECT REPLACE(UUID(),'-','')
+	    </selectKey>
+		INSERT INTO MEMBERS
+				(
+				MEM_NO
+				, MEM_TYPE
+				, MEM_ID
+				, MEM_PWD
+				, REG_DT
+				)
+				VALUES
+				(
+				#{MEM_NO}
+				, #{MEM_TYPE}
+				, #{MEM_ID}
+				, #{MEM_PWD}
+				, NOW()
+				)
+	</insert>
+</mapper>

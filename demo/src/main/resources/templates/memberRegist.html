@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Insert title here</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="js/memberRegist.js"></script>
+<link href="css/bootstrap.css" rel="stylesheet"> 
+<link href="css/login.css" rel="stylesheet"> 
+</head>
+<body style="height: 100vh; display: flex; justify-content: center; align-items: center;">
+	<div class="signup-form">
+		<div class="form-header">			
+			<h2>Sign Up</h2>
+			<p>Please fill in this form to create an account!</p>
+		</div>
+		<hr>
+		<div class="form-group">
+			<div class="input-group">
+				<select class="form-select" id="member_type" aria-label="Default select example">
+				  <option selected value="">Type</option>
+				  <option value="0100">Admin</option>
+				  <option value="0200">User</option>
+				</select>
+			</div>
+        </div>
+        <div class="form-group">
+			<div class="input-group">
+				<input type="text" class="form-control" id="id" placeholder="Id">
+			</div>
+        </div>
+		<div class="form-group">
+			<div class="input-group">
+				<input type="password" class="form-control" id="password" placeholder="Password">
+			</div>
+        </div>
+		<div class="form-group">
+			<div class="input-group">
+				<input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password">
+			</div>
+        </div>
+		<div class="form-group" style="text-align: center; padding-top: 10px;">
+            <button class="btn btn-primary btn-lg" id="registBtn">Sign Up</button>
+        </div>
+		<div class="text-center">Already have an account? <a href="login">Login here</a></div>
+	</div>
+</body>
+</html>

@@ -22,6 +22,14 @@ $(function() {
 	detail.init();
 });
 
+function guid() {
+	return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (Math.random() * 16) | 0;
+        var v = (c === 'x') ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
 function searchUser(){
 
 	$.post('searchUser', {"PERSON_ID" : p_id}, function(data){
@@ -35,13 +43,17 @@ function searchUser(){
 			var file			= files[i];
 			var FILE_ID			= file['FILE_ID'];
 			var ORN_FILE_NM		= file['OGN_FILE_NM'];
-			var url 			= "fileDownload/" + FILE_ID +"/"+ p_id;
+			var url 			= "fileDownload/" + p_id +"/"+FILE_ID+"______"+ORN_FILE_NM;
+			var uuid 			= guid();
 
-			fileArr	+='<div class="col-4">'
+			fileArr	+='<div class="col-4" delId="' + uuid + '">'
 					+ '	<div class="card card-default mb-1">'
 					+ '		<div class="card-body row">'
 					+ '			<div class="col-9">'
 					+ '				<a href="'+url+'">' + ORN_FILE_NM + '</a>'
+					+ '			</div>'
+					+ '			<div class="col-2" float="right">'
+					+ '				<a class="text-right" delId="' + uuid + '" name="fileDelBtn" href="javascript:;">삭제</a>'
 					+ '			</div>'
 					+ '		</div>'
 					+ '	</div>'

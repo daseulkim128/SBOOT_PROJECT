@@ -2,17 +2,16 @@ package com.example.demo.service;
 
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.TestDao;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Service
 public class TestService {
 
-	private final TestDao testDao;
+	@Autowired
+	private TestDao testDao;
 	
 	public HashMap<String, Object> searchUserList() {
 		return testDao.selectUserList();

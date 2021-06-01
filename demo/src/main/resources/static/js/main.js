@@ -7,7 +7,7 @@ $(function() {
 		setEvent : function() {
 			
 			$('#excelDownloadBtn').on('click', function(){
-				$.get('excelDownloadUserList');
+				location.href ="excelDownloadUserList";
 			});
 			
 			$('#excelUploadBtn').on('click', function(){

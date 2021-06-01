@@ -63,8 +63,6 @@ function inputFileChange(){
 	$('#file-append').append(fileInfo);
 }
 
-
-
 function registUser(){
 	
 	var LAST_NAME	= $('#LAST_NAME').val();

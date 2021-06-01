@@ -1,20 +1,16 @@
 package com.example.demo.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.dao.CommonDao;
-
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Service
 public class CommonService {
-
-	private final CommonDao commonDao;
 
 	/**
 	 * 서버에 파일을 등록한다
@@ -25,7 +21,7 @@ public class CommonService {
 		
 		if(files.length>0) {
 			
-			String FOLDER_PATH  = "C:\\Users\\USER\\excelTest\\"+PERSON_ID+"\\";
+			String FOLDER_PATH  = "C:\\Users\\USER\\fileTest\\"+PERSON_ID+"\\";
 			File PATH 			= new File(FOLDER_PATH);
 			
 			if(!PATH.exists()) {
@@ -38,19 +34,12 @@ public class CommonService {
 			
 			for(MultipartFile file : files) {
 				
-				HashMap<String, Object> insertMap = new HashMap<String, Object>();	
+				String uuid = UUID.randomUUID().toString();
 				String OGN_FILE_NM	= file.getOriginalFilename();
-
+				
 				try {
-					
-					//DB등록
-					insertMap.put("PERSON_ID"	, PERSON_ID);
-					insertMap.put("OGN_FILE_NM"	, OGN_FILE_NM);
-					insertMap.put("FILE"	   	, file.getBytes());
-					commonDao.insertAtth(insertMap);
-					
 					//서버등록 (경로, 파일명)
-					file.transferTo(new File(PATH+"\\"+OGN_FILE_NM));
+					file.transferTo(new File(PATH+"\\"+uuid+"______"+OGN_FILE_NM));
 				
 				}catch(Exception e){
 					e.printStackTrace();
@@ -65,17 +54,36 @@ public class CommonService {
 	 * @return
 	 */
 	public HashMap<String, Object> selectFiles(HashMap<String, Object> reqMap) {
-
-		return commonDao.selectFiles(reqMap);
-	}
-
-	/**
-	 * 다운로드할 해당 파일 조회하여 리턴한다
-	 * @param reqMap
-	 * @return
-	 */
-	public HashMap<String, Object> selectFileForDownload(String fileId) {
 		
-		return commonDao.selectFileForDownload(fileId);
+		HashMap<String, Object> retMap = new HashMap<String, Object>();
+
+		String PERSON_ID = reqMap.get("PERSON_ID").toString();
+		
+		File files = new File("C:\\Users\\USER\\fileTest\\"+PERSON_ID+"\\");
+		
+		File []fileList = files.listFiles();
+		
+		String fileName = "";
+		
+		List<HashMap<String, Object>> list = new ArrayList<>();
+		
+		if(fileList != null) {
+			
+			for(File file : fileList) {
+				
+				HashMap<String, Object> fileMap = new HashMap<String,Object>();
+				
+				if(file.isFile()) {
+					fileName = file.getName();
+					
+					fileMap.put("FILE_ID", fileName.split("______")[0]);
+					fileMap.put("OGN_FILE_NM", fileName.split("______")[1]);
+				}
+				list.add(fileMap);
+			}
+		}
+		retMap.put("list",list);
+
+		return retMap;
 	}
 }

@@ -17,6 +17,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		registry.addInterceptor(interceptor)
 				.addPathPatterns("/*")
 				.excludePathPatterns("/login")
+				.excludePathPatterns("/error")
 				.excludePathPatterns("/memberRegist");
 	}
 	

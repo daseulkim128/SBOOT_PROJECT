@@ -32,7 +32,7 @@ function loginMember(){
 				var result2 = data['RESULT'];
 				
 				if(result2 == 1){
-					location.href="main";
+					location.href="home";
 				}else{
 					alert('비밀번호를 일치하지 않습니다');
 				}

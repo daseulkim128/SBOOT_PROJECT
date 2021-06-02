@@ -19,7 +19,8 @@ public class InterCeptor implements HandlerInterceptor {
 
 		//api 접근인지 페이지 접근인지 request.header로 판별
 		if(isAjax(request)) {
-			//제외할 api 요청 - session 체크 안함
+			//api 요청
+			//제외할 api - session 체크 안함
 			if("/loginMember".equals(URI)) {
 				return true;
 			}
@@ -30,6 +31,7 @@ public class InterCeptor implements HandlerInterceptor {
 			return true;
 		}
 		
+		//페이지 요청
 		if(session != null) {
 			String MEM_TYPE = (String) request.getSession().getAttribute("MEM_TYPE");
 			if( "0100".equals(MEM_TYPE)) {

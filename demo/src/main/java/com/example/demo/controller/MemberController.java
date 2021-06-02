@@ -31,6 +31,11 @@ public class MemberController {
 		return "memberRegist";
 	}
 	
+	@GetMapping("home")
+	public String home() throws Exception {
+		return "home";
+	}
+	
 	@PostMapping("loginMember")
 	public @ResponseBody HashMap<String,Object> loginMember(HttpServletRequest request, @RequestParam HashMap<String, Object> reqMap){
 		

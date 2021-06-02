@@ -65,10 +65,6 @@ function meberRegist(){
 	var password		 	= $('#password').val();
 	var confirm_password 	= $('#confirm_password').val();
 	
-	$.post('checkEmail', param, function (data){
-		
-	});
-	
 	var json = {
 		member_type			: '회원 구분을 확인해주세요',  
 		id					: '이름을 확인해주세요',
@@ -87,8 +83,7 @@ function meberRegist(){
 		var param = {
 				MEM_TYPE	: type ,
 				MEM_ID 		: id ,
-				MEM_EMAIL 	: email ,
-				MEM_PWD 	: password ,
+				MEM_PWD 	: password 
 		}
 		
 		$.post('insertMember', param, function (data){

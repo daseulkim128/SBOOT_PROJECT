@@ -34,13 +34,13 @@ public class InterCeptor implements HandlerInterceptor {
 		//페이지 요청
 		if(session != null) {
 			String MEM_TYPE = (String) request.getSession().getAttribute("MEM_TYPE");
-			if( "0100".equals(MEM_TYPE)) {
-				return true;
-			}else {
-				session.invalidate(); // 세션 지우기
-				response.sendRedirect("/login");
-				return false;
-			}
+			
+			if("/home".equals(URI)) {
+				if("0100".equals(MEM_TYPE)) {
+					response.sendRedirect("/main");
+				}
+			} 
+			return true;
 		}else {
 			response.sendRedirect("/login");
 			return false;

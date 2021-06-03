@@ -44,7 +44,9 @@ public class MemberController {
 		int result =  Integer.parseInt(retMap.get("RESULT").toString());
 		
 		if(result == 1) {
-			String MEM_TYPE	= retMap.get("MEM_TYPE").toString();
+			HashMap<String, Object> retMap2 = memberService.selectMember(reqMap);
+
+			String MEM_TYPE	= retMap2.get("MEM_TYPE").toString();
 			
 			HttpSession session = request.getSession();
 			

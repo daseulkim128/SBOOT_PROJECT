@@ -6,6 +6,11 @@ $(function() {
 		},
 		setEvent : function() {
 			
+			$('#logoutBtn').on('click', function(){
+				$.get('logoutMember');
+				location.href="login";
+			});
+			
 			$('#excelDownloadBtn').on('click', function(){
 				location.href ="excelDownloadUserList";
 			});

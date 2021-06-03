@@ -40,18 +40,15 @@ public class MemberController {
 	public @ResponseBody HashMap<String,Object> loginMember(HttpServletRequest request, @RequestParam HashMap<String, Object> reqMap){
 		
 		HashMap<String, Object> retMap = memberService.loginMember(reqMap);
-		HashMap<String, Object> retMap2 = memberService.selectMember(reqMap);
 		
 		int result =  Integer.parseInt(retMap.get("RESULT").toString());
 		
 		if(result == 1) {
-			String MEM_TYPE	= retMap2.get("MEM_TYPE").toString();
-			String MEM_ID	= retMap2.get("MEM_ID").toString();
+			String MEM_TYPE	= retMap.get("MEM_TYPE").toString();
 			
 			HttpSession session = request.getSession();
 			
 			session.setAttribute("MEM_TYPE", MEM_TYPE);
-			session.setAttribute("MEM_ID", MEM_ID);
 		}
 
 		return retMap;

@@ -22,23 +22,16 @@ function loginMember(){
 		MEM_PWD	: password
 	}
 	
-	$.post('checkId', {MEM_ID : id} , function (data){
-		
-		var result = data.result['RESULT'];
+	$.post('loginMember', param, function(data){
+		var result = data['RESULT'];
 		
 		if(result == 1){
-			
-			$.post('loginMember', param, function(data){
-				var result2 = data['RESULT'];
-				
-				if(result2 == 1){
-					location.href="home";
-				}else{
-					alert('비밀번호를 일치하지 않습니다');
-				}
-			});
+			location.href="home";
 		}else{
-			alert('등록되지 않은 아이디 입니다');
+			alert('아이디나 비밀번호가 일치하지 않습니다');
 		}
 	});
 }
+
+
+

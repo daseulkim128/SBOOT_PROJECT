@@ -6,7 +6,9 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -33,6 +35,12 @@ public class CommonController {
 	@Autowired
 	private TestService testService;
 
+	@GetMapping("logoutMember")
+	public void logoutMember(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		session.invalidate();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@GetMapping("excelDownloadUserList")
 	public void excelDownload(HttpServletResponse response) throws Exception {

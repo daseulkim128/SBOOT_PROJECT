@@ -16,6 +16,8 @@ public class InterCeptor implements HandlerInterceptor {
 		
 		HttpSession session = request.getSession();
 		String URI = request.getRequestURI();
+		
+		boolean login = session.getAttribute("login") == null ? false : (boolean) session.getAttribute("login");
 
 		//api 접근인지 페이지 접근인지 request.header로 판별
 		if(isAjax(request)) {
@@ -32,7 +34,7 @@ public class InterCeptor implements HandlerInterceptor {
 		}
 		
 		//페이지 요청
-		if(session != null) {
+		if(login) {
 			String MEM_TYPE = (String) request.getSession().getAttribute("MEM_TYPE");
 			
 			if("/home".equals(URI)) {
@@ -40,8 +42,10 @@ public class InterCeptor implements HandlerInterceptor {
 					response.sendRedirect("/main");
 				}
 			} 
+			
 			return true;
 		}else {
+			session.invalidate();
 			response.sendRedirect("/login");
 			return false;
 		}

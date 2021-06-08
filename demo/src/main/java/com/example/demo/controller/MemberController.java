@@ -51,6 +51,8 @@ public class MemberController {
 			HttpSession session = request.getSession();
 			
 			session.setAttribute("MEM_TYPE", MEM_TYPE);
+			session.setAttribute("login", true);
+			
 		}
 
 		return retMap;

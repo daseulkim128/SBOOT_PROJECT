@@ -24,12 +24,6 @@ public class ExcelDownload {
 	        
 	        HSSFCell cell = null;
 	        
-//	        param.setPager(false);
-//	        param.setNullText(NULL_TEXT);
-//	        param.setSeparator(DELI_EXCEL);
-	       // List<VO> list = Dao.selectList(param);
-	        
-	        
 	    	List<HashMap<String, Object>> list 	= (List<HashMap<String, Object>>)reqMap.get("list");
 
 	    	row = sheet.createRow(0);
